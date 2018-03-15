@@ -1,0 +1,9 @@
+ch\axonactive\demo\mapper\PersonMapper.class
+ch\axonactive\demo\generated\bean\SimpleDestination.class
+ch\axonactive\demo\mapper\PersonMapperImpl.class
+ch\axonactive\demo\bean\PersonDTO.class
+ch\axonactive\demo\generated\bean\SimpleSource.class
+ch\axonactive\demo\generated\mapper\SimpleSourceDestinationMapper.class
+ch\axonactive\demo\bean\Person.class
+ch\axonactive\demo\generated\mapper\SimpleSourceDestinationMapperImpl.class
+ch\axonactive\demo\bean\Address.class
