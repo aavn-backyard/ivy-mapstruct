@@ -146,7 +146,7 @@
 								</configuration>
 							</execution>
 							<execution>
-								<!-- 4. replace src_temp to src -->
+								<!-- 5. replace src_temp to src -->
 								<id>replace-src_temp-to-src-folder</id>
 								<phase>test</phase>
 								<configuration>
