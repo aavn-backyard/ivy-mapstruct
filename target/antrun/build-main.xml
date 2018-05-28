@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <copy todir="D:\work\product\credit_hightway\MapStruct/src">
-    <fileset includes="**/*" dir="D:\work\product\credit_hightway\MapStruct/target/src_temp"/>
+  <copy todir="D:\work\TeamAlpha\Repo\ivy-mapstruct/src">
+    <fileset includes="**/*" dir="D:\work\TeamAlpha\Repo\ivy-mapstruct/target/src_temp"/>
   </copy>
 </target>
 </project>

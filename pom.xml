@@ -76,75 +76,11 @@
 			<id>ivy_local</id>
 			<build>
 				<plugins>
-					 <plugin>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.20.1</version>
-						<configuration>
-							<skipTests>false</skipTests>
-						</configuration>
-					</plugin>
-					<plugin>
-					  <groupId>org.apache.maven.plugins</groupId>
-					  <artifactId>maven-antrun-plugin</artifactId>
-					  <version>1.8</version>
-					  <executions>
-						<execution>
-							<id>delete-src-folder</id>
-						  <phase>test</phase>
-						  <goals>
-							<goal>run</goal>
-						  </goals>
-						  <configuration>
-							<target>
-							  <delete 
-								dir="${basedir}/src"
-								includeemptydirs="true"/>
-							</target>
-						  </configuration>
-						</execution>
-						<execution>
-						<id>replace-src_temp-to-src-folder</id>
-						   <phase>test</phase>
-						   <configuration>
-							<target>
-							 <copy todir="${basedir}/src">
-							  <fileset dir="${basedir}/target/src_temp" includes="**/*" />
-							 </copy>
-							</target>
-						   </configuration>
-						   <goals>
-							<goal>run</goal>
-						   </goals>
-						  </execution>
-					  </executions>
-					</plugin>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>copy-src_temp-to-src-install-phase</id>
-								<phase>test</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>src</outputDirectory>
-									<encoding>UTF-8</encoding>
-									<resources>
-										<resource>
-											<directory>target/src_temp</directory>
-											<include>**/*.java</include>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
+							<!-- 1. Backup src folder -->
 								<id>copy-src-to-src_temp</id>
 								<phase>validate</phase>
 								<goals>
@@ -162,8 +98,8 @@
 									</resources>
 								</configuration>
 							</execution>
-							
 							<execution>
+								<!-- 2. Copy generated source of mapstruct to src folder -->
 								<id>copy-mapstruct-source-to-src</id>
 								<phase>process-sources</phase>
 								<goals>
@@ -181,30 +117,55 @@
 									</resources>
 								</configuration>
 							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- 3. run test -->
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.20.1</version>
+						<configuration>
+							<skipTests>false</skipTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
 							<execution>
-								<id>copy-src_temp-to-src-install-phase</id>
-								<phase>install</phase>
+								<!-- 4. delete src folder after run test -->
+								<id>delete-src-folder</id>
+								<phase>test</phase>
 								<goals>
-									<goal>copy-resources</goal>
+									<goal>run</goal>
 								</goals>
 								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>src</outputDirectory>
-									<encoding>UTF-8</encoding>
-									<resources>
-										<resource>
-											<directory>target/src_temp</directory>
-											<include>**/*.java</include>
-										</resource>
-									</resources>
+									<target>
+										<delete  dir="${basedir}/src" includeemptydirs="true"/>
+									</target>
 								</configuration>
+							</execution>
+							<execution>
+								<!-- 4. replace src_temp to src -->
+								<id>replace-src_temp-to-src-folder</id>
+								<phase>test</phase>
+								<configuration>
+									<target>
+										<copy todir="${basedir}/src">
+											<fileset dir="${basedir}/target/src_temp" includes="**/*" />
+										</copy>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
 							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
-		<!-- Use on developer machine -->
+		<!-- Compile mapstruct -->
 		<profile>
 			<id>mapstruct</id>
 			<properties>
@@ -230,15 +191,6 @@
 					</plugin>
 				  </plugins>
 			</build>
-		</profile>
-
-		<!-- Use for Jenkins build job -->
-		<profile>
-			<id>ivy7_jenkins</id>
-			<properties>
-				<ivy.version>7.0.1</ivy.version>
-				<engine.path>/usr/share/axonivy/AxonIvyEngine7.0.1</engine.path>
-			</properties>
 		</profile>
 	</profiles>
 </project>

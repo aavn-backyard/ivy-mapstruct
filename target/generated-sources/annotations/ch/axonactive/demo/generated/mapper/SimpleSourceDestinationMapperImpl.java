@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2018-03-14T18:29:05+0700",
+    date = "2018-05-28T09:08:06+0700",
     comments = "version: 1.1.0.Final, compiler: javac, environment: Java 1.8.0_112 (Oracle Corporation)"
 )
 public class SimpleSourceDestinationMapperImpl implements SimpleSourceDestinationMapper {
